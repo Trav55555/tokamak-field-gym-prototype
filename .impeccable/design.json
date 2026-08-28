@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-28T16:38:44-04:00",
+  "title": "Design System: Field Gym — Magnetic Plotting Table",
+  "extensions": {
+    "colorMeta": {
+      "plotting-paper": { "role": "neutral", "displayName": "Plotting Paper", "canonical": "#f4f2eb", "tonalRamp": ["#25251f", "#49483e", "#6e6d60", "#949286", "#b9b7ad", "#d6d4cc", "#e9e7e0", "#f4f2eb"] },
+      "instrument-ink": { "role": "neutral", "displayName": "Instrument Ink", "canonical": "#152127", "tonalRamp": ["#081014", "#152127", "#2e3b41", "#4d5a60", "#738086", "#9ca7ab", "#cbd1d3", "#edf0f1"] },
+      "drive-cobalt": { "role": "primary", "displayName": "Drive Cobalt", "canonical": "#164bd6", "tonalRamp": ["#071846", "#0b2873", "#103aa4", "#164bd6", "#4674e5", "#7799ee", "#aec1f6", "#e8edfd"] },
+      "reverse-vermilion": { "role": "secondary", "displayName": "Reverse Vermilion", "canonical": "#e33a20", "tonalRamp": ["#461009", "#781a0e", "#ad2917", "#e33a20", "#eb6753", "#f09080", "#f7beb4", "#fdece8"] },
+      "field-aqua": { "role": "tertiary", "displayName": "Field Aqua", "canonical": "#00a89d", "tonalRamp": ["#003a36", "#005e58", "#00847b", "#00a89d", "#3bc2b9", "#74d7d0", "#afeae6", "#e6f9f7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Instrument Display", "purpose": "Product identity and major operational headings." },
+      "body": { "displayName": "Reading Copy", "purpose": "Model notices, instructions, and context." },
+      "label": { "displayName": "Rail Label", "purpose": "Controls, fields, metrics, and state." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "timeline-playback", "value": "requestAnimationFrame with 180ms field refresh cadence", "purpose": "Connect prescribed activation schedules to coil opacity and field state without blocking interaction." }
+    ],
+    "breakpoints": [
+      { "name": "register-compact", "value": "1040px" },
+      { "name": "mobile-stack", "value": "760px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Rail Action",
+      "kind": "button",
+      "refersTo": "action-primary",
+      "description": "Loads geometry or commits the rail's primary operation.",
+      "html": "<button class=\"ds-action-primary\">LOAD</button>",
+      "css": ".ds-action-primary{height:38px;padding:0 13px;border:0;border-radius:0;background:#164bd6;color:#fffefa;font:800 .72rem 'DejaVu Sans Condensed',sans-serif;letter-spacing:.04em;text-transform:uppercase}.ds-action-primary:hover{background:#0c3196}.ds-action-primary:focus-visible{outline:3px solid #006cff;outline-offset:2px}"
+    },
+    {
+      "name": "Instrument Field",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Compact numeric or textual geometry control.",
+      "html": "<label class=\"ds-field\"><span>RADIUS</span><input value=\"1.450\"></label>",
+      "css": ".ds-field{display:grid;gap:4px;color:#5c686c;font:800 .67rem 'DejaVu Sans Condensed',sans-serif;letter-spacing:.06em}.ds-field input{min-height:35px;padding:6px 8px;border:1px solid #506168;border-radius:0;background:#fffefa;color:#152127;font:400 .9rem 'Noto Sans',sans-serif}.ds-field input:focus-visible{outline:3px solid #006cff;outline-offset:2px}"
+    },
+    {
+      "name": "Tool Rail",
+      "kind": "nav",
+      "description": "Continuous square instrument controls with ruled separation.",
+      "html": "<nav class=\"ds-rail\"><button>ADD LOOP</button><button>ADD SOLENOID</button><button>ADD TOROID</button></nav>",
+      "css": ".ds-rail{display:flex;border-bottom:1px solid #152127;background:#fffefa}.ds-rail button{height:48px;padding:0 13px;border:0;border-right:1px solid #b9c2c0;border-radius:0;background:#fffefa;color:#152127;font:800 .72rem 'DejaVu Sans Condensed',sans-serif}.ds-rail button:hover{background:#152127;color:#fffefa}.ds-rail button:focus-visible{outline:3px solid #006cff;outline-offset:-3px}"
+    },
+    {
+      "name": "Metric Strip",
+      "kind": "custom",
+      "description": "Tabular continuity result with label and measured value.",
+      "html": "<div class=\"ds-metric\"><span>RIPPLE</span><strong>13.2%</strong></div>",
+      "css": ".ds-metric{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:10px;border-top:1px solid #152127;border-right:1px solid #b9c2c0;background:#fffefa}.ds-metric span{color:#5c686c;font:800 .62rem 'DejaVu Sans Condensed',sans-serif;letter-spacing:.05em}.ds-metric strong{color:#152127;font:800 .83rem 'Noto Sans',sans-serif;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Qualitative Model Notice",
+      "kind": "custom",
+      "description": "Persistent model-boundary notice shown on desktop and mobile.",
+      "html": "<div class=\"ds-notice\"><strong>QUALITATIVE MODEL</strong><span>Normalized vacuum field · no plasma or reactor engineering</span></div>",
+      "css": ".ds-notice{display:flex;align-items:center;gap:12px;padding:8px 12px;border-top:1px solid #b9c2c0;background:#fffefa}.ds-notice strong{color:#e33a20;font:800 .7rem 'DejaVu Sans Condensed',sans-serif;letter-spacing:.05em}.ds-notice span{color:#5c686c;font:400 .7rem 'Noto Sans',sans-serif}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Magnetic Plotting Table",
+    "overview": "Field Gym behaves like a physical laboratory plotting surface: crisp working stock, hard instrument rails, colored current paths, and measurements sharing one continuous desk. It refuses the generic dark neon simulation dashboard.",
+    "keyCharacteristics": ["Ruled, square, full-width operating surfaces", "Cobalt for positive drive and vermilion for reversal or warning", "Aqua field traces over a pale measurement grid", "State shown through geometry, timelines, and explicit numerical readouts"],
+    "rules": [
+      { "name": "The Polarity Rule", "body": "Cobalt means positive drive; vermilion means reversal or warning.", "section": "colors" },
+      { "name": "The Measurement Rule", "body": "Field Aqua belongs to computed field traces, not ordinary buttons or labels.", "section": "colors" },
+      { "name": "The Flat Instrument Rule", "body": "Structure comes from ruled planes, not persistent card shadows or glass surfaces.", "section": "elevation" }
+    ],
+    "dos": ["Do keep the qualitative-model boundary visible near the work surface.", "Do make current polarity, inactive state, selected geometry, and current time visually distinct.", "Do preserve direct access to numeric geometry and schedule fields alongside canvas interaction."],
+    "donts": ["Don't turn the interface into a dark neon sci-fi dashboard.", "Don't replace operating regions with rounded cards or pills.", "Don't imply circuit feasibility, plasma equilibrium, or reactor performance through visual language."]
+  }
+}

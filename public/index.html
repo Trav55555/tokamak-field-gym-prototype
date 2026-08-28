@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Field Gym — Magnetic Geometry Workbench</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!--
+  THESIS: A magnetic plotting table where geometry, activation timing, and measured continuity share one working surface; it refuses the dark neon simulation dashboard.
+  OWN-WORLD: Chalk-white plotting stock, cobalt instrument rails, vermilion current marks, square controls, ruled panels, and dense tabular readouts.
+  STORY: Build a coil assembly, stagger its activation, scrub time, then judge field ripple and dropout at explicit probes.
+  FIRST VIEWPORT: Full-width instrument header above a dominant 3D plotting table, narrow right-hand coil register, and a bottom timeline strip with continuity metrics.
+  FORM: Operate surface derived from a laboratory plotting table; chosen directly after the direction seed script returned no assignment; seed unavailable.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <header class="masthead">
+    <div class="brand-block">
+      <h1>Field Gym</h1>
+      <p>Magnetic geometry workbench</p>
+    </div>
+    <div class="model-notice">
+      <strong>Qualitative model</strong>
+      <span>Normalized Biot–Savart filaments · not plasma or reactor engineering</span>
+    </div>
+    <div class="connection" id="connection" role="status" aria-live="polite">
+      <span class="connection-dot"></span>
+      <span>Connecting</span>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="plotting-table" aria-label="Three-dimensional field workspace">
+      <nav class="tool-rail" aria-label="Geometry tools">
+        <label class="preset-control">
+          <span>Load geometry</span>
+          <select id="preset">
+            <option value="staggered_solenoids">Staggered solenoids</option>
+            <option value="stacked_solenoids">Stacked solenoids</option>
+            <option value="stacked_toroids">Stacked toroidal assemblies</option>
+            <option value="tilted_toroids">Tilted toroidal assemblies</option>
+            <option value="single_loop">Single loop</option>
+          </select>
+        </label>
+        <button id="load-preset" class="action primary">Load</button>
+        <span class="rail-rule" aria-hidden="true"></span>
+        <button id="add-loop" class="action">Add loop</button>
+        <button id="add-solenoid" class="action">Add solenoid</button>
+        <button id="add-toroid" class="action">Add toroid</button>
+        <span class="rail-spacer"></span>
+        <label class="switch"><input id="show-vectors" type="checkbox" checked><span>Vectors</span></label>
+        <label class="switch"><input id="show-traces" type="checkbox" checked><span>Traces</span></label>
+        <label class="switch"><input id="show-labels" type="checkbox" checked><span>Labels</span></label>
+        <span class="rail-more" aria-hidden="true">Swipe tools</span>
+      </nav>
+
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="field-canvas" tabindex="0" aria-label="Interactive three-dimensional coil and field rendering" aria-describedby="canvas-instructions geometry-summary"></canvas>
+        <div class="canvas-instructions" id="canvas-instructions">Drag to orbit · wheel to zoom · Shift-drag to move selected loop · arrow keys orbit</div>
+        <div class="canvas-status" id="canvas-status" role="status" aria-live="polite" hidden></div>
+        <div class="sr-only" id="geometry-summary" role="status" aria-live="polite"></div>
+        <div class="time-readout"><span>t</span><strong id="time-value">0.00</strong></div>
+      </div>
+
+      <div class="timeline-controls">
+        <button id="play" class="play-button" aria-label="Play activation timeline">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3.5 16 10 6 16.5Z"/></svg>
+          <span>Play</span>
+        </button>
+        <label class="time-slider">
+          <span class="sr-only">Simulation time</span>
+          <input id="time" type="range" min="0" max="12" step="0.02" value="0">
+        </label>
+        <div class="timeline-range"><span id="time-start">0</span><span id="time-end">12</span></div>
+      </div>
+    </section>
+
+    <aside class="register" aria-label="Geometry register">
+      <div class="register-heading">
+        <div>
+          <h2>Coil register</h2>
+          <p id="scene-meta">Waiting for scene</p>
+        </div>
+        <button id="delete-loop" class="text-action danger" disabled>Delete</button>
+      </div>
+
+      <label class="field full-field">
+        <span>Selected filament</span>
+        <select id="loop-select"></select>
+      </label>
+
+      <div id="loop-editor" class="loop-editor">
+        <label class="field full-field"><span>Name</span><input id="loop-name" type="text"></label>
+        <div class="field-grid three">
+          <label class="field"><span>X</span><input id="center-x" type="number" step="0.1"></label>
+          <label class="field"><span>Y</span><input id="center-y" type="number" step="0.1"></label>
+          <label class="field"><span>Z</span><input id="center-z" type="number" step="0.1"></label>
+        </div>
+        <div class="field-grid two">
+          <label class="field"><span>Radius</span><input id="radius" type="number" min="0.05" max="20" step="0.05"></label>
+          <label class="field"><span>Current</span><input id="current" type="number" min="-100" max="100" step="0.1"></label>
+        </div>
+        <div class="field-grid two">
+          <label class="field"><span>Tilt</span><input id="tilt" type="number" min="0" max="180" step="1"></label>
+          <label class="field"><span>Azimuth</span><input id="azimuth" type="number" min="-180" max="180" step="1"></label>
+        </div>
+
+        <div class="section-rule"><span>Activation</span></div>
+        <label class="field full-field">
+          <span>Waveform</span>
+          <select id="waveform">
+            <option value="dc">DC after delay</option>
+            <option value="pulse">Pulse train</option>
+            <option value="ramp">Ramp and hold</option>
+            <option value="triangle">Triangle</option>
+            <option value="sine">Sine</option>
+          </select>
+        </label>
+        <div class="field-grid two">
+          <label class="field"><span>Delay</span><input id="delay" type="number" step="0.1"></label>
+          <label class="field"><span>Period</span><input id="period" type="number" min="0.05" step="0.1"></label>
+          <label class="field"><span>Duty</span><input id="duty" type="number" min="0.01" max="1" step="0.05"></label>
+          <label class="field"><span>Phase</span><input id="phase" type="number" step="0.05"></label>
+        </div>
+        <div class="editor-actions">
+          <button id="duplicate-loop" class="action">Duplicate</button>
+          <button id="apply-group" class="action">Apply schedule to group</button>
+        </div>
+      </div>
+
+      <div class="assembly-index">
+        <div class="section-rule"><span>Assemblies</span></div>
+        <div id="group-list" class="group-list"></div>
+      </div>
+    </aside>
+
+    <section class="measurements" aria-label="Field continuity measurements">
+      <div class="measurement-heading">
+        <div>
+          <h2>Continuity trace</h2>
+          <p id="measurement-status" role="status" aria-live="polite">Full-scene timeline · average across active probes</p>
+        </div>
+        <button id="refresh-measurements" class="text-action">Recompute</button>
+      </div>
+      <canvas id="timeline-canvas" aria-label="Field magnitude and target-axis projection over time"></canvas>
+      <div class="metric-strip">
+        <div><span>Mean |B|</span><strong id="mean-field">—</strong></div>
+        <div><span>Worst dip</span><strong id="min-field">—</strong></div>
+        <div><span>Ripple</span><strong id="ripple">—</strong></div>
+        <div><span>Dropout</span><strong id="dropout">—</strong></div>
+        <div><span>Direction</span><strong id="direction">—</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

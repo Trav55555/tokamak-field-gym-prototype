@@ -1,0 +1,20 @@
+{
+  "name": "tokamak-field-gym-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:wasm": "cargo build --manifest-path engine/Cargo.toml --target wasm32-unknown-unknown --release && cp engine/target/wasm32-unknown-unknown/release/field_gym_engine.wasm public/field_gym_engine.wasm",
+    "prestart": "npm run build:wasm",
+    "start": "node server.mjs",
+    "pretest": "npm run build:wasm",
+    "test": "cargo test --manifest-path engine/Cargo.toml && node --test",
+    "check": "node --check server.mjs && node --check src/sim.mjs && node --check src/scene.mjs && node --check src/store.mjs && node --check src/engine.mjs && node --check public/app.js && node --check experiments/geometry-maintenance/run.mjs && node --check experiments/triangular-loop-bundle/run.mjs && node --check experiments/adaptive-field-control/run.mjs && node --check experiments/nested-hybrid-control/run.mjs && node --check experiments/circuit-achievability/run.mjs && node --check experiments/integrated-control-loop/run.mjs",
+    "experiment:inclination": "node experiments/geometry-maintenance/run.mjs",
+    "experiment:bundle": "node experiments/triangular-loop-bundle/run.mjs",
+    "experiment:adaptive": "node experiments/adaptive-field-control/run.mjs",
+    "experiment:nested": "node experiments/nested-hybrid-control/run.mjs",
+    "experiment:circuit": "node experiments/circuit-achievability/run.mjs",
+    "experiment:integrated": "node experiments/integrated-control-loop/run.mjs"
+  }
+}

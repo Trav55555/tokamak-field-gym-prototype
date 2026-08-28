@@ -1,0 +1,6 @@
+.field-gym/
+.impeccable/review/
+node_modules/
+engine/target/
+*.log
+.DS_Store
